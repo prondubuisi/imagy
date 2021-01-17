@@ -16,12 +16,11 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('name');
+            $table->string('title');
             $table->text('description');
             $table->string('url');
             $table->string('tags');
-            $table->integer('price');
-            $table->integer('quantity');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -33,6 +32,9 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
+        Schema::table('images', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
         Schema::dropIfExists('images');
     }
 }

@@ -36,6 +36,11 @@ https://templatemo.com/tm-556-catalog-z
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="{{route('uploadimage')}}">Upload Photo</a>
                 </li>
+                @guest
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="{{route('login')}}">Login</a>
+                </li>
+                @endguest
                 @auth
                 <li class="nav-item">
                     <a class="nav-link nav-link-1" aria-current="page" href="{{route('dashboard')}}">Dashboard</a>
@@ -51,7 +56,7 @@ https://templatemo.com/tm-556-catalog-z
                         </x-responsive-nav-link>
                     </form>
                 @endauth
-               
+               </li>
             </ul>
                 
             </div>
@@ -80,14 +85,24 @@ https://templatemo.com/tm-556-catalog-z
                     <div class="tm-bg-gray tm-video-details">
                         
                         <div class="text-center mb-5">
-                            <a href="#" class="btn btn-primary tm-btn-big">Buy</a>
+                            <a href="{{$image->url}}" class="btn btn-primary tm-btn-big" download="{{$image->name}}" target="_blank">Download</a>
                         </div>  
-                        <div class="mb-4">
-                            <h3 class="tm-text-gray-dark mb-3">Price</h3>
-                            <h4 class="tm-text-dark mb-3">{{$image->price}}</h4>
-                            <h3 class="tm-text-gray-dark mb-3">Quantity</h3>
-                            <h4 class="tm-text-dark mb-3">{{$image->quantity}}</h4>
-                        </div>                  
+                        @if(Auth::id() == $image->user_id)
+                        <div class="text-center mb-5">
+                            
+                            <form method="POST" action="{{ route('deleteimage') }}">
+                            @csrf
+
+                            <a :href="" class="btn btn-danger tm-btn-big"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                Delete Image
+                            </a>
+                            <input type="hidden" name="imageid" value="{{$image->id}}"> </input>
+                            </form>
+                        </div>  
+                        @endif
+         
                         <div class="mb-4">
                             <h3 class="tm-text-gray-dark mb-3">Description</h3>
                             <h4 class="tm-text-dark mb-3">{{$image->description}}</h4>
@@ -100,116 +115,7 @@ https://templatemo.com/tm-556-catalog-z
                     </div>
                 </div>
             </div>
-            <div class="row mb-4">
-                <h2 class="col-12 tm-text-primary">
-                    Related Photos
-                </h2>
-            </div>
-            <div class="row mb-3 tm-gallery">
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure class="effect-ming tm-video-item">
-                        <img src="img/img-01.jpg" alt="Image" class="img-fluid">
-                        <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>Hangers</h2>
-                            <a href="#">View more</a>
-                        </figcaption>                    
-                    </figure>
-                    <div class="d-flex justify-content-between tm-text-gray">
-                        <span class="tm-text-gray-light">16 Oct 2020</span>
-                        <span>12,460 views</span>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure class="effect-ming tm-video-item">
-                        <img src="img/img-02.jpg" alt="Image" class="img-fluid">
-                        <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>Perfumes</h2>
-                            <a href="#">View more</a>
-                        </figcaption>                    
-                    </figure>
-                    <div class="d-flex justify-content-between tm-text-gray">
-                        <span class="tm-text-gray-light">12 Oct 2020</span>
-                        <span>11,402 views</span>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure class="effect-ming tm-video-item">
-                        <img src="img/img-03.jpg" alt="Image" class="img-fluid">
-                        <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>Clocks</h2>
-                            <a href="#">View more</a>
-                        </figcaption>                    
-                    </figure>
-                    <div class="d-flex justify-content-between tm-text-gray">
-                        <span class="tm-text-gray-light">8 Oct 2020</span>
-                        <span>9,906 views</span>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure class="effect-ming tm-video-item">
-                        <img src="img/img-04.jpg" alt="Image" class="img-fluid">
-                        <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>Plants</h2>
-                            <a href="#">View more</a>
-                        </figcaption>                    
-                    </figure>
-                    <div class="d-flex justify-content-between tm-text-gray">
-                        <span class="tm-text-gray-light">6 Oct 2020</span>
-                        <span>16,100 views</span>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure class="effect-ming tm-video-item">
-                        <img src="img/img-05.jpg" alt="Image" class="img-fluid">
-                        <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>Morning</h2>
-                            <a href="#">View more</a>
-                        </figcaption>                    
-                    </figure>
-                    <div class="d-flex justify-content-between tm-text-gray">
-                        <span class="tm-text-gray-light">26 Sep 2020</span>
-                        <span>16,008 views</span>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure class="effect-ming tm-video-item">
-                        <img src="img/img-06.jpg" alt="Image" class="img-fluid">
-                        <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>Pinky</h2>
-                            <a href="#">View more</a>
-                        </figcaption>                    
-                    </figure>
-                    <div class="d-flex justify-content-between tm-text-gray">
-                        <span class="tm-text-gray-light">22 Sep 2020</span>
-                        <span>12,860 views</span>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure class="effect-ming tm-video-item">
-                        <img src="img/img-07.jpg" alt="Image" class="img-fluid">
-                        <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>Bus</h2>
-                            <a href="#">View more</a>
-                        </figcaption>                    
-                    </figure>
-                    <div class="d-flex justify-content-between tm-text-gray">
-                        <span class="tm-text-gray-light">12 Sep 2020</span>
-                        <span>10,900 views</span>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                    <figure class="effect-ming tm-video-item">
-                        <img src="img/img-08.jpg" alt="Image" class="img-fluid">
-                        <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>New York</h2>
-                            <a href="#">View more</a>
-                        </figcaption>                    
-                    </figure>
-                    <div class="d-flex justify-content-between tm-text-gray">
-                        <span class="tm-text-gray-light">4 Sep 2020</span>
-                        <span>11,300 views</span>
-                    </div>
-                </div>        
+                    
             </div> <!-- row -->
         </div> <!-- container-fluid, tm-container-content -->
     </div>

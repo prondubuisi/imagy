@@ -36,6 +36,11 @@ https://templatemo.com/tm-556-catalog-z
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="{{route('uploadimage')}}">Upload Photo</a>
                 </li>
+                @guest
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="{{route('login')}}">Login</a>
+                </li>
+                @endguest
                 @auth
                 <li class="nav-item">
                     <a class="nav-link nav-link-1" aria-current="page" href="{{route('dashboard')}}">Dashboard</a>
@@ -50,6 +55,7 @@ https://templatemo.com/tm-556-catalog-z
                             {{ __('Logout') }}
                         </x-responsive-nav-link>
                     </form>
+                </li>
                 @endauth
                
             </ul>
@@ -80,12 +86,12 @@ https://templatemo.com/tm-556-catalog-z
                 <figure class="effect-ming tm-video-item">
                     <img src="{{$image->url}}" alt="Image" class="img-fluid">
                     <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{$image->name}}</h2>
+                        <h2>{{$image->title}}</h2>
                         <a href="{{route('imagepreview', $image->id)}}">View more</a>
                     </figcaption>                    
                 </figure>
                 <div class="d-flex justify-content-between tm-text-gray">
-                    <span class="tm-text-gray-light">{{$image->name}}</span>
+                    <span class="tm-text-gray-light">{{$image->title}}</span>
                     
                 </div>
             </div>

@@ -20,10 +20,12 @@ Route::get('/search',[ImagesController::class, 'searchImage'])->name('search');
 
 Route::get('/upload', function () {
     return view('uploadimage');
-})->name('uploadimage')->middleware('auth');;
+})->name('uploadimage')->middleware('auth');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::post('/storeimage',[ImagesController::class, 'storeImage'])->name('storeimage');
+Route::post('/deleteimage',[ImagesController::class, 'deleteImage'])->name('deleteimage');
+
+
+Route::get('/dashboard', [ImagesController::class, 'viewDashboard'] )->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

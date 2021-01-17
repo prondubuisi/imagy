@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreImageRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
 use App\Models\Images;
 
 class ImagesController extends Controller
 {
     public function index()
     {
-        $images = Images::all();
+        $images = Images::latest()->get();
         return view('home', compact('images'));
     }
 
@@ -19,7 +23,7 @@ class ImagesController extends Controller
         if($request->ajax()){
    
             $output="";
-            $images = Images::where('tags','LIKE','%'.$request->search."%")->get();
+            $images = Images::where('tags','LIKE','%'.$request->search."%")->latest()->get();
     
             if($images){
          
@@ -32,7 +36,7 @@ class ImagesController extends Controller
                     <figure class="effect-ming tm-video-item">
                         <img src="$image->url" alt="Image" class="img-fluid">
                         <figcaption class="d-flex align-items-center justify-content-center">
-                            <h2>$image->name</h2>
+                            <h2>$image->title</h2>
                             <a href="$route">View more</a>
                         </figcaption>                    
                     </figure>
@@ -56,5 +60,51 @@ class ImagesController extends Controller
     {
         
         return view('previewimage', compact('image'));
+    }
+
+    public function viewDashboard()
+    {
+        $images = Images::where('user_id', Auth::id())->latest()->get();
+        return view('dashboard', compact('images'));
+    }
+
+    public function storeImage(StoreImageRequest $request)
+    {
+        $validated = $request->validated();
+
+        try {
+            $uploadedImageUrl = $request->file('image')->storeOnCloudinary('imagy')->getSecurePath();
+            $userID = Auth::id();
+
+            $image = new Images();
+            $image->user_id = $userID;
+            $image->url = $uploadedImageUrl;
+            $image->title = $request->post('title');
+            $image->description = $request->post('description');
+            $image->tags = $request->post('tags');
+            $image->save();
+
+            return redirect('dashboard')->with('message', 'Image uploaded sucessfully');
+        }catch(Exception $exception){
+            return back()->withErrors('Error',"Something went bad, please try again");
+        }
+        
+    }
+    public function deleteImage(Request $request){
+        $userID = Auth::id();
+        $imageId = $request->post('imageid');
+        $image = Images::find($imageId);
+    
+        if($image->user_id == $userID )
+        {
+            $image->delete();
+            return redirect('dashboard')->with('message', 'Image deleted sucessfully');
+        }
+
+        return redirect('dashboard')->with('error', 'You are not authorized to delete this image');
+
+
+        
+        
     }
 }

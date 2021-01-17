@@ -36,6 +36,7 @@ https://templatemo.com/tm-556-catalog-z
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="{{route('uploadimage')}}">Upload Photo</a>
                 </li>
+                
                 @auth
                 <li class="nav-item">
                     <a class="nav-link nav-link-1" aria-current="page" href="{{route('dashboard')}}">Dashboard</a>
@@ -70,11 +71,33 @@ https://templatemo.com/tm-556-catalog-z
     <div class="container-fluid tm-container-content tm-mt-60" >
         <div class="row mb-4">
             <h2 class="col-6 tm-text-primary">
-                 Photos
+                 Your Photos
             </h2>
         </div>
-        
+        @if(session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="row tm-mb-90 tm-gallery" id="gallerybody">
+        <div class="alert alert-error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+        </div>
+            
+            @if($images->isEmpty())
+            <h3 class="col-6 ">
+                 Looks like you have not uploaded any image, click <a href="{{route('uploadimage')}}">Upload Photo</a> to get started
+            </h3>
+            @endif
             @foreach($images as $image)
         	<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
                 <figure class="effect-ming tm-video-item">

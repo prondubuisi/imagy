@@ -35,6 +35,7 @@ https://templatemo.com/tm-556-catalog-z
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="{{route('uploadimage')}}">Upload Photo</a>
                 </li>
+                
                 @auth
                 <li class="nav-item">
                     <a class="nav-link nav-link-1" aria-current="page" href="{{route('dashboard')}}">Dashboard</a>
@@ -50,7 +51,7 @@ https://templatemo.com/tm-556-catalog-z
                         </x-responsive-nav-link>
                     </form>
                 @endauth
-               
+               </li>
             </ul>
                 
             </div>
@@ -63,19 +64,32 @@ https://templatemo.com/tm-556-catalog-z
     
             <div class="row">
                 <div class="col-md-6 col-md-offset-4">
-                    <h3>Upload Images</h3>
+                    <h3>Upload Image</h3>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div>
                        
                     </div>
-                    <form  method="post" action="/user/upload?_csrf=Lz0GE3cV-gjyn0TLJAvQ9JH6RZ52GkJtoQDw" novalidate enctype="multipart/form-data">
+                    <form  method="post" action="{{route('storeimage')}}" novalidate enctype="multipart/form-data">
+                        @csrf
                         <div class="form-group">
-                            <label for="title">ImageTitle:</label>
+                            <label for="title">Title:</label>
                             <input type="text" name="title" required class="form-control" placeholder="Enter image title">
                         </div>
+
                         <div class="form-group">
-                            <label for="title">Price:</label>
-                            <input type="number" name="price" min="0" step="5" max="100" required class="form-control" placeholder="Image Price">
+                            <label for="title">Tags:</label>
+                            <input type="text" name="tags" required class="form-control" placeholder="Enter image tags seperated by spacing">
                         </div>
+
     
                         <div class="form-group">
                             <label for="description">Description:</label>
@@ -86,7 +100,7 @@ https://templatemo.com/tm-556-catalog-z
     
                                 <input type="file" name="image" required>
                             </div>
-                            <input type="hidden" name="_csrf" value="Lz0GE3cV-gjyn0TLJAvQ9JH6RZ52GkJtoQDw" required>
+    
                            <button type="submit"  class="btn btn-primary">Upload</button>
                     </form>
     
