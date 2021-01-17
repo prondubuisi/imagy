@@ -61,7 +61,7 @@ https://templatemo.com/tm-556-catalog-z
 
     <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="img/hero.jpg">
         <form class="d-flex tm-search-form">
-            <input class="form-control tm-search-input" id="searchfield" type="search" placeholder="Search for image" aria-label="Search">
+            <input class="form-control tm-search-input" id="searchfield" type="search" placeholder="Search for images within your dashboard" aria-label="Search">
             <button class="btn btn-outline-success tm-search-btn" id="searchbutton" type="button">
                 <i class="fas fa-search"></i>
             </button>
@@ -154,7 +154,7 @@ https://templatemo.com/tm-556-catalog-z
         const searchValue = searchField.value;
         
             const xhr = new XMLHttpRequest();
-            xhr.open('GET','{{route('search')}}/?search=' + searchValue ,true);
+            xhr.open('GET','{{route('authsearch')}}/?search=' + searchValue ,true);
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.onreadystatechange = function() {
                 

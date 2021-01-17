@@ -17,6 +17,7 @@ use App\Http\Controllers\ImagesController;
 Route::get('/', [ImagesController::class, 'index'] )->name('home');
 Route::get('/imagepreview/{image}', [ImagesController::class, 'previewImage'] )->name('imagepreview');
 Route::get('/search',[ImagesController::class, 'searchImage'])->name('search');
+Route::get('/authsearch',[ImagesController::class, 'authenticatedUsersearchImage'])->name('authsearch');
 
 Route::get('/upload', function () {
     return view('uploadimage');

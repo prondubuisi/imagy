@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreImageRequest;
+use App\Http\Requests\DeleteImageRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -24,6 +25,45 @@ class ImagesController extends Controller
    
             $output="";
             $images = Images::where('tags','LIKE','%'.$request->search."%")->latest()->get();
+    
+            if($images){
+         
+               foreach ($images as  $image) {
+               
+                $route = route("imagepreview", $image->id);
+                $output .= <<<eot
+
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                    <figure class="effect-ming tm-video-item">
+                        <img src="$image->url" alt="Image" class="img-fluid">
+                        <figcaption class="d-flex align-items-center justify-content-center">
+                            <h2>$image->title</h2>
+                            <a href="$route">View more</a>
+                        </figcaption>                    
+                    </figure>
+                    <div class="d-flex justify-content-between tm-text-gray">
+                        <span class="tm-text-gray-light">$image->name</span>
+                        
+                    </div>
+                </div>
+                eot;
+            
+               }
+
+               return $output;
+               
+            }
+        }
+    
+    }
+
+    public function authenticatedUsersearchImage(Request $request){
+
+        if($request->ajax()){
+   
+            $output="";
+            $images = Images::where('user_id', Auth::id())
+                ->where('tags','LIKE','%'.$request->search."%")->latest()->get();
     
             if($images){
          
@@ -90,12 +130,15 @@ class ImagesController extends Controller
         }
         
     }
-    public function deleteImage(Request $request){
+    public function deleteImage(DeleteImageRequest $request){
+
+        $validated = $request->validated();
+
         $userID = Auth::id();
         $imageId = $request->post('imageid');
         $image = Images::find($imageId);
     
-        if($image->user_id == $userID )
+        if(isset($image->user_id) && $image->user_id == $userID )
         {
             $image->delete();
             return redirect('dashboard')->with('message', 'Image deleted sucessfully');
