@@ -15,7 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()
+        
+       $adminUser = ['name' => 'Ndubuisi Onyemenam', 'email' => 'me@shopify.com', 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'];
+       DB::table('users')->insert($adminUser);
+
+       User::factory()
             ->count(10)
             ->create();
 
