@@ -1,7 +1,7 @@
 # Imagy
 Image Repository Example for  Shopify Developer Intern Challenge 
 ![imagy gif](https://user-images.githubusercontent.com/22311928/104887221-39bd1d80-596b-11eb-874a-49bee17f996c.gif)
-)
+
 
 # Test Credentials
 * Url: [Imagy](http://shopifyimagy.herokuapp.com/)
