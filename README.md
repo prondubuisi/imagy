@@ -1,8 +1,5 @@
 # Imagy
 Image Repository Example for  Shopify Developer Intern Challenge 
-![imagy gif](https://res.cloudinary.com/ndubuisi/image/upload/v1610957237/imagy_r1hpfz.png)
-
-
 # Test Credentials
 * Url: [Imagy](http://shopifyimagy.herokuapp.com/)
 * Login email: `me@shopify.com`
